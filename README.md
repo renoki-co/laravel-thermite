@@ -3,7 +3,7 @@ Laravel Thermite
 
 ![CI](https://github.com/renoki-co/laravel-thermite/workflows/CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/renoki-co/laravel-thermite/branch/master/graph/badge.svg)](https://codecov.io/gh/renoki-co/laravel-thermite/branch/master)
-[![StyleCI](https://github.styleci.io/repos/:styleci_code/shield?branch=master)](https://github.styleci.io/repos/:styleci_code)
+[![StyleCI](https://github.styleci.io/repos/386672830/shield?branch=master)](https://github.styleci.io/repos/386672830)
 [![Latest Stable Version](https://poser.pugx.org/renoki-co/laravel-thermite/v/stable)](https://packagist.org/packages/renoki-co/laravel-thermite)
 [![Total Downloads](https://poser.pugx.org/renoki-co/laravel-thermite/downloads)](https://packagist.org/packages/renoki-co/laravel-thermite)
 [![Monthly Downloads](https://poser.pugx.org/renoki-co/laravel-thermite/d/monthly)](https://packagist.org/packages/renoki-co/laravel-thermite)
