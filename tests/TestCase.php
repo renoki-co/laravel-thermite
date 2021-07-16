@@ -2,10 +2,13 @@
 
 namespace RenokiCo\LaravelThermite\Test;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    use DatabaseMigrations;
+
     /**
      * {@inheritdoc}
      */
@@ -13,11 +16,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->resetDatabase();
-
-        $this->loadLaravelMigrations(['--database' => 'sqlite']);
-
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadLaravelMigrations(['--database' => 'cockroachdb']);
 
         $this->withFactories(__DIR__.'/database/factories');
     }
@@ -28,7 +27,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            //
+            \RenokiCo\LaravelThermite\LaravelThermiteServiceProvider::class,
         ];
     }
 
@@ -39,21 +38,20 @@ abstract class TestCase extends Orchestra
     {
         $app['config']->set('app.key', 'wslxrEFGWY6GfGhvN9L3wH3KSRJQQpBD');
         $app['config']->set('auth.providers.users.model', Models\User::class);
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
-            'database' => __DIR__.'/database.sqlite',
-            'prefix'   => '',
+        $app['config']->set('database.default', 'cockroachdb');
+        $app['config']->set('database.connections.cockroachdb', [
+            'driver' => 'cockroachdb',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '26257'),
+            'database' => env('DB_DATABASE', 'defaultdb'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ]);
-    }
-
-    /**
-     * Reset the database.
-     *
-     * @return void
-     */
-    protected function resetDatabase()
-    {
-        file_put_contents(__DIR__.'/database.sqlite', null);
     }
 }

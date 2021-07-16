@@ -2,7 +2,11 @@
 
 namespace RenokiCo\LaravelThermite;
 
+use Illuminate\Database\Connection;
+use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\ServiceProvider;
+use RenokiCo\LaravelThermite\Database\Connection as CockroachConnection;
+use RenokiCo\LaravelThermite\Database\Connector;
 
 class LaravelThermiteServiceProvider extends ServiceProvider
 {
@@ -13,13 +17,7 @@ class LaravelThermiteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../config/config.php' => config_path('config.php'),
-        ], 'config');
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php', 'config'
-        );
+        //
     }
 
     /**
@@ -29,6 +27,12 @@ class LaravelThermiteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Connection::resolverFor('cockroachdb', function ($connection, $database, $prefix, $config) {
+            $connection = (new Connector)->connect($config);
+
+            return new CockroachConnection(
+                $connection, $database, $prefix, $config
+            );
+        });
     }
 }
