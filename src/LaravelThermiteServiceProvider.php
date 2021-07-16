@@ -1,10 +1,10 @@
 <?php
 
-namespace RenokiCo\:package_namespace;
+namespace RenokiCo\LaravelThermite;
 
 use Illuminate\Support\ServiceProvider;
 
-class :package_service_provider extends ServiceProvider
+class LaravelThermiteServiceProvider extends ServiceProvider
 {
     /**
      * Boot the service provider.
