@@ -45,7 +45,7 @@ jobs:
         docker run -d --name=roach2 --hostname=roach2 --net=roachnet cockroachdb/cockroach:v21.1.5 start --insecure --join=roach1,roach2,roach3
         docker run -d --name=roach3 --hostname=roach3 --net=roachnet cockroachdb/cockroach:v21.1.5 start --insecure --join=roach1,roach2,roach3
         docker exec roach1 ./cockroach init --insecure
-        until curl --silent -XGET --insecure --fail http://127.0.0.1:8080/health; do printf '.';
+        until curl --silent -XGET --insecure --fail http://127.0.0.1:8080/health; do printf '.'; sleep 1; done
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
