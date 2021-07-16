@@ -38,6 +38,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2.3.4
 
+    - name: Setup CockroachDB Cluster
+      run: |
+        docker network create -d bridge roachnet
+        docker run -d --name=roach1 --hostname=roach1 --net=roachnet -p 26257:26257 -p 8080:8080 cockroachdb/cockroach:v21.1.5 start --insecure --join=roach1,roach2,roach3
+        docker run -d --name=roach2 --hostname=roach2 --net=roachnet -p 26257:26257 -p 8080:8080 cockroachdb/cockroach:v21.1.5 start --insecure --join=roach1,roach2,roach3
+        docker run -d --name=roach3 --hostname=roach3 --net=roachnet -p 26257:26257 -p 8080:8080 cockroachdb/cockroach:v21.1.5 start --insecure --join=roach1,roach2,roach3
+        docker exec -it roach1 ./cockroach init --insecure
+        until curl --silent -XGET --insecure --fail http://127.0.0.1:8080/health; do printf '.';
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
