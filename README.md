@@ -29,7 +29,7 @@ composer require renoki-co/laravel-thermite
 
 ## 🙌 Usage
 
-The driver is based on Postgres, so the most of the definition of Postgres features are available in CockroachDB:
+The driver is based on Postgres, most of the features from Laravel's first-party Postgres driver are available in CockroachDB.
 
 ```php
 // config/database.php
