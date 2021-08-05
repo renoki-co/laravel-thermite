@@ -4,7 +4,6 @@ namespace RenokiCo\LaravelThermite\Database;
 
 use Illuminate\Database\Schema\Blueprint as BaseBlueprint;
 use Illuminate\Support\Facades\DB;
-use RenokiCo\LaravelThermite\Exceptions\CockroachSchemaException;
 
 class Blueprint extends BaseBlueprint
 {
