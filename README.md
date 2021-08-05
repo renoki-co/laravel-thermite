@@ -121,7 +121,7 @@ $book = $user->books()->create(['name' => 'The Great Gatsby']);
 
 ## Other caveats
 
-CockroachDB, being based on Postgres, it borrowed functionalities from it. Consider [reading about CockroachDB-Postgres compatibilities](https://www.cockroachlabs.com/docs/v21.1/sql-feature-support.html) when it comes to schema capabilities and counter-patterns that may affect your implementation and [see further caveats that are CockroachDB-only](https://www.cockroachlabs.com/docs/v21.1/postgresql-compatibility.html).
+Being based on Postgres, CockroachDB borrowed functionalities from its code. Consider [reading about CockroachDB-Postgres compatibilities](https://www.cockroachlabs.com/docs/v21.1/sql-feature-support.html) when it comes to schema capabilities and counter-patterns that may affect your implementation and [see further caveats that are CockroachDB-only](https://www.cockroachlabs.com/docs/v21.1/postgresql-compatibility.html).
 
 ## 🐛 Testing
 
