@@ -4,6 +4,7 @@ namespace RenokiCo\LaravelThermite\Database;
 
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Filesystem\Filesystem;
+use RenokiCo\LaravelThermite\Exceptions\CockroachSchemaException;
 
 class Connection extends PostgresConnection
 {
@@ -61,5 +62,18 @@ class Connection extends PostgresConnection
     protected function getDefaultPostProcessor()
     {
         return new Processor;
+    }
+
+    /**
+     * Run a select statement against the database and returns a generator.
+     *
+     * @param  string  $query
+     * @param  array  $bindings
+     * @param  bool  $useReadPdo
+     * @return \Generator
+     */
+    public function cursor($query, $bindings = [], $useReadPdo = true)
+    {
+        throw new CockroachSchemaException('CockroachDB does not support cursors.');
     }
 }

@@ -1,7 +1,7 @@
 {
     "name": "renoki-co/laravel-thermite",
     "description": "Laravel Thermite is an extended PostgreSQL Laravel database driver to connect to a CockroachDB cluster.",
-    "keywords": ["laravel", "php"],
+    "keywords": ["laravel", "php", "cockroach", "cockroachdb", "spanner", "cloud", "postgres", "psql", "pgsql", "db", "database", "orm"],
     "license": "Apache-2.0",
     "homepage": "https://github.com/renoki-co/laravel-thermite",
     "authors": [

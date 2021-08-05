@@ -3,7 +3,6 @@
 namespace RenokiCo\LaravelThermite;
 
 use Illuminate\Database\Connection;
-use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\ServiceProvider;
 use RenokiCo\LaravelThermite\Database\Connection as CockroachConnection;
 use RenokiCo\LaravelThermite\Database\Connector;
