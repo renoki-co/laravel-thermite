@@ -29,9 +29,99 @@ composer require renoki-co/laravel-thermite
 
 ## 🙌 Usage
 
+The driver is based on Postgres, so the most of the definition of Postgres features are available in CockroachDB:
+
 ```php
-$ //
+// config/database.php
+
+return [
+    // ...
+
+    'connections' => [
+        // ...
+
+        'cockroachdb' => [
+            'driver' => 'cockroachdb',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '26257'),
+            'database' => env('DB_DATABASE', 'defaultdb'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
+    ],
+];
 ```
+
+## ✨ Caveats
+
+### Primary Keys are not incremental
+
+Postgres supports incrementing keys, but since CockroachDB is based on a global multi-master architecture, having increments may lead to [transaction contention](https://www.cockroachlabs.com/docs/v21.1/sql-faqs#how-do-i-auto-generate-unique-row-ids-in-cockroachdb).
+
+This way, this extended driver leverages you with two functions that you may call in your migrations to generate performant, unique IDs. The differences between the methods [can be found here](https://www.cockroachlabs.com/docs/v21.1/sql-faqs#what-are-the-differences-between-uuid-sequences-and-unique_rowid).
+
+The `->id()` method got replaced to generate a random UUID as primary key with `gen_random_uuid()` instead of an incremental primary key. The downside is that is not orderable, opposed to `uniqueRowId()`:
+
+```php
+use RenokiCo\LaravelThermite\Database\Blueprint;
+
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+});
+
+class User extends Model
+{
+    // Make sure to set key type as string.
+    protected $keyType = 'string';
+}
+```
+
+With `uniqueRowId()`, it uses `unique_rowid()`-generated primary key. This is highly-orderable, being sequentially generated. The only minor downsides are the throttling upon insert, which are limited by one node.
+
+```php
+use RenokiCo\LaravelThermite\Database\Blueprint;
+
+Schema::create('users', function (Blueprint $table) {
+    $table->uniqueRowId();
+    $table->string('name');
+});
+
+class User extends Model
+{
+    // Do not set the $keyType to string, as it is an integer.
+}
+```
+
+### Foreign keys associated with Primary Keys
+
+To represent the primary key constraints in other tables, like passing relational fields, consider using `->uuid()`:
+
+```php
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+});
+
+Schema::create('books', function (Blueprint $table) {
+    $table->id();
+    $table->uuid('user_id')->index();
+    $table->string('name');
+});
+
+$book = $user->books()->create(['name' => 'The Great Gatsby']);
+```
+
+## Other caveats
+
+CockroachDB, being based on Postgres, it borrowed functionalities from it. Consider [reading about CockroachDB-Postgres compatibilities](https://www.cockroachlabs.com/docs/v21.1/sql-feature-support.html) when it comes to schema capabilities and counter-patterns that may affect your implementation and [see further caveats that are CockroachDB-only](https://www.cockroachlabs.com/docs/v21.1/postgresql-compatibility.html).
 
 ## 🐛 Testing
 
