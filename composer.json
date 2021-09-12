@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "^8.40"
+        "illuminate/database": "^8.40"
     },
     "autoload": {
         "psr-4": {
