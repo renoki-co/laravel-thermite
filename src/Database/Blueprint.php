@@ -12,6 +12,7 @@ class Blueprint extends BaseBlueprint
      *
      * @param  string  $column
      * @return \Illuminate\Database\Schema\ColumnDefinition
+     *
      * @see https://www.cockroachlabs.com/docs/v21.1/sql-faqs#what-are-the-differences-between-uuid-sequences-and-unique_rowid
      */
     public function id($column = 'id')
@@ -26,6 +27,7 @@ class Blueprint extends BaseBlueprint
      *
      * @param  string  $column
      * @return \Illuminate\Database\Schema\ColumnDefinition
+     *
      * @see https://www.cockroachlabs.com/docs/v21.1/sql-faqs#what-are-the-differences-between-uuid-sequences-and-unique_rowid
      */
     public function bytesId($column = 'id')
@@ -40,6 +42,7 @@ class Blueprint extends BaseBlueprint
      *
      * @param  string  $column
      * @return \Illuminate\Database\Schema\ColumnDefinition
+     *
      * @see https://www.cockroachlabs.com/docs/v21.1/sql-faqs#what-are-the-differences-between-uuid-sequences-and-unique_rowid
      */
     public function uniqueRowId($column = 'id')
